@@ -1,0 +1,72 @@
+{% extends "blog/base_blog.html"%}
+
+{% load widget_tweaks %}
+{% block title%} Post "{{ post.title}}" {% endblock%}
+
+{% block content%}
+  <div class="card">
+    <div class="card-header">
+      {{ post.date}}
+    </div>
+    <div class="card-body">
+      <h5 class="card-title">{{post.title}}</h5>
+      <p class="card-text">{{post.text}}</p>
+    </div>
+      {% if post.tag.all %}
+         <div class="card-footer text-muted">
+            {% for tag in post.tag.all %}
+              <a href="{{ tag.get_absolute_url }}">{{tag.title}}</a>
+            {% endfor%}
+          </div>
+      {% endif %}
+    </div>
+    {% if user.is_authenticated %}
+        <form action="" method="post">
+            {% csrf_token%}
+            <p>Comment:</p>
+            {{ form.text }}
+            <button type="submit" value="" class="btn btn-primary mt-5 mb-5">Comment</button>
+        </form>
+    {% else %}
+    <p>You need to be authenticated to add comment!</p>
+    <a href="{% url 'login' %}" class="btn btn-primary">Login</a>
+    <a href="{% url 'accounts_registration_url' %}" class="btn btn-primary">Registrate</a>
+    {% endif %}
+
+    {% for comment in post.comments.all%}
+        {% if not comment.parent %}
+        <div class="media mt-2">
+            <img src="{{ comment.author.profile.pic.url }}" class="mr-3" alt="..." width="64px">
+            <div class="media-body">
+                <h5 class="mt-0">{{ comment.author.username}}</h5>
+                <hr>
+                <p>{{ comment.text }}</p>
+                <hr>
+                <p>{{comment.pub_date}} </p>
+            {% for c in comment.replies.all %}
+                <div class="media mt-2">
+                    <a class="mr-3" href="#">
+                        <img src="{{ c.author.profile.pic.url}}" class="mr-3" alt="..." width="64px">
+                    </a>
+                    <div class="media-body">
+                        <h5 class="mt-0">{{ c.author.username}}</h5>
+                        <hr>
+                        <p>{{ c.text }}</p>
+                        <hr>
+                        <p>{{c.pub_date}} </p>
+                    </div>
+                </div>
+            {% endfor%}
+            </div>
+        </div>
+        <h5>Replay</h5>
+        <form action="" method="post">
+            {{ form.text|add_class:"mt-2" }}
+            {% csrf_token %}
+            <!-- Hidden input for parent comment.id -->
+            <input type="hidden" name="parent_id" value="{{ comment.id }}">
+            <input class="btn btn-primary mt-2 mb-2" type="submit" value="Replay">
+        </form>
+        {% endif %}
+    {% endfor%}
+{% endblock%}

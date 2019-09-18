@@ -1,0 +1,12 @@
+{% extends "blog/base_blog.html"%}
+
+
+{% block content %}
+<form action="{% url 'post_add_url'%}" method="post">
+    {% csrf_token%}
+    {% for field in form%}
+    {% include "blog/includes/add_form.html" %}
+    {% endfor %}
+    <button type="submit" name="submit" class="btn btn-primary">Add</button>
+</form>
+{% endblock %}
