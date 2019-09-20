@@ -7,11 +7,7 @@
 
 {% block content %}
 <h2> Editing post </h2>
-    <form action="{{ post.get_edit_url }}" method="post">
-        {% csrf_token%}
-        {% for field in form %}
-        {% include "blog/includes/add_form.html" %}
-        {% endfor%}
-        <button type="submit" name="submit" class="btn btn-primary">Edit</button>
-    </form>
+{% url "post_edit_url" slug=post.slug as action%}
+{% include "blog/includes/add_form.html" with action_name=action button_name="Edit"%}
+
 {% endblock %}

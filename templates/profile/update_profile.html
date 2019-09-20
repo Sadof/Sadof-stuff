@@ -2,16 +2,8 @@
 
 
 {% block content %}
-
 <h1>Update profile</h1>
-<form action="{% url 'update_profile_url'%}" method="post" enctype="multipart/form-data">
-    {% csrf_token%}
-    {% for field in user_form %}
-        {% include "blog/includes/add_form.html" %}
-    {% endfor%}
-    {% for field in profile_form %}
-    {% include "blog/includes/add_form.html" %}
-    {% endfor %}
-    <input type="submit" class="btn btn-primary mt-4 btn-lg"></input>
-</form>
+    {% url "update_profile_url" as url %}
+    {% include "blog/includes/add_form.html" with action_name=url button_name="Update" enctype="enctype='multipart/form-data'"%}
+
 {% endblock%}

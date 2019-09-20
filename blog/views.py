@@ -8,8 +8,8 @@ from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMix
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.contrib import messages
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.views import LoginView
 
 
 
@@ -119,10 +119,10 @@ class TagEditView(ObjectEditMixim, View):
 
 class RegistrationView(View):
     def get(self,request):
-        registration_form = UserCreationForm
+        registration_form = CustomUserCreationForm
         return render(request,'registration/registration.html',context={"form":registration_form})
     def post(self,request):
-        bound_form = UserCreationForm(request.POST)
+        bound_form = CustomUserCreationForm(request.POST)
         if bound_form.is_valid():
             new_form = bound_form.save()
             user = authenticate(request, username=request.POST['username'], password=request.POST["password1"])
@@ -137,7 +137,8 @@ class UpdateProfileView(LoginRequiredMixin,View):
         user = User.objects.get(username=request.user.username)
         user_form = UserForm(instance=user)
         profile_form = ProfileForm(instance=user.profile)
-        return render(request,"profile/update_profile.html",context={"user_form": user_form,"profile_form": profile_form})
+        print([profile_form,user_form])
+        return render(request,"profile/update_profile.html",context={"form":[user_form,profile_form]})
     def post(self,request):
         user_form = UserForm(request.POST, instance=request.user)
         profile_form = ProfileForm(data=request.POST, files=request.FILES, instance=request.user.profile)
@@ -156,3 +157,9 @@ class ProfileView(View):
         user = get_object_or_404(User,username=slug)
         post_list = Post.objects.filter(author=user)
         return render(request,"profile/base_profile.html",context={"form":user,"post_list":post_list})
+
+
+
+# Default LoginView with replaced form by CustonAuthenticatedForm with custom field classes
+class CustomLoginView(LoginView):
+    authentication_form = CustomAuthenticationForm

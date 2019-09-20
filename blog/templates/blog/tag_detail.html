@@ -4,10 +4,10 @@
 
 
 {% block content %}
-<h1> List of posts with tag "{{tag.title|title}}"</h1>
-
-
+    <h1> List of posts with tag "{{tag.title|title}}"</h1>
 {% for post in tag.posts.all %}
 {% include "blog/includes/post_card.html" %}
+{% empty %}
+    <p>No posts related to this tag.</p>
 {% endfor %}
 {% endblock %}

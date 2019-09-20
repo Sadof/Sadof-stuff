@@ -1,22 +1,10 @@
 {% extends "base.html" %}
-{% load widget_tweaks %}
 
 
 
 {% block content %}
-<form action="{% url 'accounts_registration_url' %}" method="post">
-    {% for field in form %}
-    {% csrf_token %}
-    <div class="form-group">
-        {% if field.errors %}
-        <div class="alert alert-danger">
-            {{ field.errors }}
-        </div>
-        {% endif %}
-        {{ field.label_tag }}
-        {{ field|add_class:"form-control" }}
-    </div>
-    {% endfor%}
-    <button type="submit" class="btn btn-primary">Registrate</button>
-</form>
+
+{% url "accounts_registration_url" as url%}
+{% include "blog/includes/add_form.html" with action_name=url button_name="Registration" %}
+
 {% endblock%}

@@ -11,7 +11,7 @@
 
 {% for post in page.object_list %}
 
-{% include "blog/includes/post_card.html" %}
+{% include "blog/includes/post_card.html" with text=post.text|truncatewords:20 %}
 
 {% endfor %}
 

@@ -15,6 +15,9 @@
 
 <h2>Your posts:</h2>
     {% for post in post_list %}
-    <p><a href="{{post.get_absolute_url}}">{{post.title|title}}</a></p>
+    <div class="list-group">
+      <a href="{{post.get_absolute_url}}" class="list-group-item list-group-item-action mt-2">{{post.title|title}}</a>
+    </div>
     {% endfor%}
+
 {% endblock %}

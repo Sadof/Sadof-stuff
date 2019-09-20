@@ -1,11 +1,8 @@
 {% extends "blog/base_blog.html" %}
 
 {% block content%}
-<form action="" method="post">
-    {% csrf_token%}
-    {% for field in form %}
-    {% include "blog/includes/add_form.html" %}
-    {% endfor%}
-    <button type="submit" name="submit" class="btn btn-primary">Add</button>
-</form>
+
+    {% url "tag_add_url" as action%}
+    {% include "blog/includes/add_form.html" with action_name=action button_name="Edit" %}
+
 {% endblock %}
