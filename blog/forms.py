@@ -1,11 +1,11 @@
-from django.forms import ModelForm, TextInput, Textarea, SelectMultiple, DateInput, ClearableFileInput, PasswordInput
+from django.forms import ModelForm, TextInput, Textarea, SelectMultiple, DateInput, FileInput, PasswordInput, EmailInput, DateTimeInput
 from .models import *
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django import forms
 from django.utils.translation import ugettext, ugettext_lazy as _
-
+from tempus_dominus.widgets import DatePicker
 
 class PostAddForm(ModelForm):
     class Meta:
@@ -74,7 +74,7 @@ class UserForm(ModelForm):
         widgets = {
             "first_name": TextInput(attrs={"class": "form-control"}),
             "last_name": TextInput(attrs={"class": "form-control"}),
-            "email": TextInput(attrs={"class": "form-control"}),
+            "email": EmailInput(attrs={"class": "form-control"}),
         }
 
 
@@ -86,8 +86,8 @@ class ProfileForm(ModelForm):
         fields = ["bio","birth_date","pic"]
         widgets = {
             "bio": TextInput(attrs={"class": "form-control"}),
-            "birth_date": DateInput(format=('%d-%m-%Y'),attrs={"class": "form-control"}),
-            "pic": ClearableFileInput(attrs={"class": "form-control-file"}),
+            "birth_date": DateInput(format=('%m-%d-%Y'),attrs={"class": "form-control","placeholder":"month/day/year. I'm too lazy to set datepicker"}),
+            "pic": FileInput(attrs={"class": "form-control-file"}),
         }
 
 

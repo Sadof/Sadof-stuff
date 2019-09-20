@@ -1,0 +1,18 @@
+<ul class="comment-buttons">
+<li>
+    {% if comment.author.username == user.username or user.is_superuser %}
+<form action="{% url 'comment_delete_url'  slug=post.slug pk=comment.id %}" method="post">
+    {% csrf_token %}
+    <input type="submit" value="Delete">
+</form>
+{% endif%}
+</li>
+    <li>
+{% if comment.author.username == user.username %}
+<form action="{% url 'comment_delete_url'  slug=post.slug pk=comment.id %}" method="post">
+    {% csrf_token %}
+    <input type="submit" value="Edit">
+</form>
+{% endif %}
+    </li>
+</ul>

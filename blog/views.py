@@ -137,7 +137,7 @@ class UpdateProfileView(LoginRequiredMixin,View):
         user = User.objects.get(username=request.user.username)
         user_form = UserForm(instance=user)
         profile_form = ProfileForm(instance=user.profile)
-        print([profile_form,user_form])
+        print(user_form)
         return render(request,"profile/update_profile.html",context={"form":[user_form,profile_form]})
     def post(self,request):
         user_form = UserForm(request.POST, instance=request.user)
@@ -145,16 +145,17 @@ class UpdateProfileView(LoginRequiredMixin,View):
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
-            return redirect("/")
+            return redirect("profile_url", request.user.username)
         else:
             messages.error(request, ('Пожалуйста, исправьте ошибки.'))
-            return render(request,"profile/update_profile.html",context={"user_form": user_form,"profile_form": profile_form})
+            return render(request,"profile/update_profile.html",context={"form":[user_form,profile_form]})
 
 
 
 class ProfileView(View):
     def get(self,request,slug):
         user = get_object_or_404(User,username=slug)
+        print(user.email)
         post_list = Post.objects.filter(author=user)
         return render(request,"profile/base_profile.html",context={"form":user,"post_list":post_list})
 
@@ -163,3 +164,12 @@ class ProfileView(View):
 # Default LoginView with replaced form by CustonAuthenticatedForm with custom field classes
 class CustomLoginView(LoginView):
     authentication_form = CustomAuthenticationForm
+
+
+
+def CommentDeleteView(request,slug,pk):
+    if request.method == "POST":
+        print(request.path_info)
+        comment = Comment.objects.get(pk=pk)
+        comment.delete()
+        return redirect("post_detail_url", slug=slug)

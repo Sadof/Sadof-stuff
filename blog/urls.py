@@ -10,7 +10,9 @@ urlpatterns = [
     path('tags/<str:slug>/edit/',TagEditView.as_view(), name="tag_edit_url"),
     path('tags/<str:slug>', TagView.as_view(),name="tag_detail_url"),
     path('post/add/',PostAddView.as_view(),name="post_add_url"),
+    path('post/<str:slug>/commentdelete/<int:pk>', CommentDeleteView, name="comment_delete_url"),
     path('post/<str:slug>',PostView.as_view(),name="post_detail_url"),
     path('post/<str:slug>/delete/',PostDeleteView.as_view(),name="post_delete_url"),
     path('post/<str:slug>/edit/',PostEditView.as_view(), name="post_edit_url"),
+
 ]
