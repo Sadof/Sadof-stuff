@@ -1,0 +1,28 @@
+.admin-panel{
+    position:fixed;
+    float:right;
+    bottom:50px;
+    right:50px;
+    opacity:0.3;
+    background: #EEE;
+    border: 2px solid #999;
+    border-radius: 5px;
+
+
+}
+
+.admin-panel a{
+    display:block;
+    margin: 10px 15px;
+
+
+}
+.admin-panel:hover{
+    opacity:1;
+    }
+
+.navbar{
+    z-index: 9999;
+    top: 0;
+    position: sticky;
+}
