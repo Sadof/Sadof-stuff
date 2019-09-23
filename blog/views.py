@@ -10,8 +10,8 @@ from django.db.models import Q
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.views import LoginView
-
-
+from django.http import JsonResponse
+import json
 
 # paginate var(query_set) by amount of var(range) and return context
 def paginatoring(request,query_set, range):
@@ -166,10 +166,12 @@ class CustomLoginView(LoginView):
     authentication_form = CustomAuthenticationForm
 
 
-
+# Delete comment by pk from post with given slug, if it's not reply to a comment, then responce pk to delete reply button with the same pk
 def CommentDeleteView(request,slug,pk):
     if request.method == "POST":
-        print(request.path_info)
         comment = Comment.objects.get(pk=pk)
+        data = {}
+        if not comment.parent:
+            data['result'] = pk
         comment.delete()
-        return redirect("post_detail_url", slug=slug)
+        return HttpResponse(json.dumps(data), content_type="application/json")

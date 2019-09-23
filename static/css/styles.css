@@ -38,10 +38,11 @@
     margin: 0;
     padding: 0;
 }
+.comment-buttons li{
+    display:inline;
+    }
 .comment-buttons li form input {
-display:inline-block;
     margin-bottom:3px;
-
 }
 
 .comment-buttons:hover{

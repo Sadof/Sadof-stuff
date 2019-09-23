@@ -3,7 +3,7 @@
         {{ post.date}}
     </div>
     <div class="card-body">
-        <h5 class="card-title">{{post.title}}</h5>
+        <h5 class="card-title">{{post.title}} by {{post.author}}</h5>
         <p class="card-text">{{text|default:post.text}}</p>
         {% if not admin_panel %}
         <a href='{{ post.get_absolute_url }}' class='btn btn-primary'>Read</a>

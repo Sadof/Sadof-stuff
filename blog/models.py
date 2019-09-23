@@ -84,7 +84,7 @@ class Comment(models.Model):
         on_delete=models.CASCADE,
     )
     text = models.TextField(blank=False)
-    parent = models.ForeignKey('self', null=True, blank=True, related_name='replies',on_delete=models.SET_NULL)
+    parent = models.ForeignKey('self', null=True, blank=True, related_name='replies',on_delete=models.CASCADE)
     pub_date = models.DateTimeField(auto_now_add=True)
 
     class Meta:
