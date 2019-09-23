@@ -1,5 +1,5 @@
 from django.shortcuts import render, reverse, get_object_or_404,redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from .models import *
 from django.views import View
 from .utils import *
@@ -165,7 +165,6 @@ class ProfileView(View):
 class CustomLoginView(LoginView):
     authentication_form = CustomAuthenticationForm
 
-
 # Delete comment by pk from post with given slug, if it's not reply to a comment, then responce pk to delete reply button with the same pk
 def CommentDeleteView(request,slug,pk):
     if request.method == "POST":
@@ -175,3 +174,4 @@ def CommentDeleteView(request,slug,pk):
             data['result'] = pk
         comment.delete()
         return HttpResponse(json.dumps(data), content_type="application/json")
+

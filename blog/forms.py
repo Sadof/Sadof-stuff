@@ -11,9 +11,12 @@ class PostAddForm(ModelForm):
     class Meta:
         model = Post
         fields = ["title","slug","text","tag"]
+        labels={
+            "slug": _("Slug (Человекопонятный url для поста. Необязательный для заполнения. При отсутствии автоматически генерируется )")
+        }
         widgets = {
             'title': TextInput(attrs={"class":"form-control"}),
-            'slug': TextInput(attrs={"class":"form-control"}),
+            'slug': TextInput(attrs={"class":"form-control"} ),
             "text": Textarea(attrs={"class": "form-control"}),
             "tag": SelectMultiple(attrs={"class":"form-control"})
         }
